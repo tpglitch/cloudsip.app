@@ -21,6 +21,8 @@ function initDisclaimer(){
   const modal = document.getElementById('disclaimerModal');
   const backdrop = document.getElementById('disclaimerBackdrop');
   const acknowledgeButton = document.getElementById('disclaimerAcknowledge');
+  const uploadButton = document.getElementById('disclaimerUploadProvisioning');
+  const provisioningInput = document.getElementById('provisioningFileInput');
   if (!modal || !backdrop || !acknowledgeButton) return;
 
   let acknowledged = false;
@@ -35,7 +37,7 @@ function initDisclaimer(){
   modal.hidden = false;
   backdrop.hidden = false;
   acknowledgeButton.focus();
-  acknowledgeButton.addEventListener('click', () => {
+  const closeDisclaimer = () => {
     try {
       window.localStorage.setItem(DISCLAIMER_ACKNOWLEDGED_KEY, 'true');
     } catch (error) {
@@ -43,7 +45,11 @@ function initDisclaimer(){
     }
     modal.hidden = true;
     backdrop.hidden = true;
-  }, { once: true });
+  };
+
+  acknowledgeButton.addEventListener('click', closeDisclaimer, { once: true });
+  uploadButton?.addEventListener('click', () => provisioningInput?.click());
+  window.addEventListener('provisioning:imported', closeDisclaimer, { once: true });
 }
 
 function buildSipConfig(settings){

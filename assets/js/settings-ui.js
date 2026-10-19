@@ -3,6 +3,7 @@ import { renderLogs } from './call-logs.js';
 import { showSuccess, showWarning } from './toast.js';
 import { setTheme } from './theme-manager.js';
 import { clearRecordingBlobs } from './recording-db.js';
+import { exportProvisioningFile, importProvisioningFile } from './provisioning.js';
 
 const fields = {
   companyWebsite: 'settingsCompanyWebsite',
@@ -109,6 +110,27 @@ function initSettingsAccordions(){
 }
 
 function bindSettingsButtons(){
+  const provisioningInput = getElement('provisioningFileInput');
+
+  getElement('importProvisioning')?.addEventListener('click', () => provisioningInput?.click());
+  getElement('exportProvisioning')?.addEventListener('click', exportProvisioningFile);
+  provisioningInput?.addEventListener('change', async () => {
+    const file = provisioningInput.files?.[0];
+    if (!file) return;
+
+    try {
+      await importProvisioningFile(file);
+      renderSettingsForm();
+      showSuccess('Provisioning imported and applied');
+      window.dispatchEvent(new Event('provisioning:imported'));
+    } catch (error) {
+      console.warn('Unable to import provisioning file', error);
+      showWarning(error.message || 'Unable to import provisioning file');
+    } finally {
+      provisioningInput.value = '';
+    }
+  });
+
   getElement(fields.theme)?.addEventListener('change', (event) => {
     setTheme(event.target.value);
   });

@@ -313,6 +313,8 @@
                 </div>
                 <div class="settings-actions">
                   <button class="settings-btn primary" id="saveSettings" type="button">Save Settings</button>
+                  <button class="settings-btn secondary" id="importProvisioning" type="button">Import provisioning file</button>
+                  <button class="settings-btn secondary" id="exportProvisioning" type="button">Export provisioning file</button>
                 </div>
               </div>
             </div>
@@ -485,6 +487,7 @@
 <audio id="remoteAudio" autoplay playsinline></audio>
 <audio id="ringtoneAudio" preload="auto" playsinline></audio>
 <div class="toast-container" id="toastContainer"></div>
+<input id="provisioningFileInput" type="file" accept="application/json,.json" hidden>
 
 <div class="disclaimer-backdrop" id="disclaimerBackdrop" hidden></div>
 <section
@@ -523,13 +526,23 @@
     use.
   </p>
 
-  <button
-    class="disclaimer-acknowledge"
-    id="disclaimerAcknowledge"
-    type="button"
-  >
-    I understand
-  </button>
+  <div class="disclaimer-actions">
+    <button
+      class="disclaimer-acknowledge"
+      id="disclaimerAcknowledge"
+      type="button"
+    >
+      I understand
+    </button>
+
+    <button
+      class="disclaimer-provisioning"
+      id="disclaimerUploadProvisioning"
+      type="button"
+    >
+      Upload provisioning file
+    </button>
+  </div>
 </section>
 
 <script src="https://jssip.net/download/releases/jssip-3.10.0.min.js"></script>
