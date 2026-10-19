@@ -15,6 +15,37 @@ import { initKeyboardShortcuts } from './keyboard-shortcuts.js';
 import { initTheme } from './theme-manager.js';
 import { blockSipForInvalidCompanyWebsite, normalizeCompanyWebsiteUrl } from './branding-check.js';
 
+const DISCLAIMER_ACKNOWLEDGED_KEY = 'cloudsip.internal-use-disclaimer-acknowledged';
+
+function initDisclaimer(){
+  const modal = document.getElementById('disclaimerModal');
+  const backdrop = document.getElementById('disclaimerBackdrop');
+  const acknowledgeButton = document.getElementById('disclaimerAcknowledge');
+  if (!modal || !backdrop || !acknowledgeButton) return;
+
+  let acknowledged = false;
+  try {
+    acknowledged = window.localStorage.getItem(DISCLAIMER_ACKNOWLEDGED_KEY) === 'true';
+  } catch (error) {
+    console.warn('Unable to read the internal-use disclaimer acknowledgement', error);
+  }
+
+  if (acknowledged) return;
+
+  modal.hidden = false;
+  backdrop.hidden = false;
+  acknowledgeButton.focus();
+  acknowledgeButton.addEventListener('click', () => {
+    try {
+      window.localStorage.setItem(DISCLAIMER_ACKNOWLEDGED_KEY, 'true');
+    } catch (error) {
+      console.warn('Unable to save the internal-use disclaimer acknowledgement', error);
+    }
+    modal.hidden = true;
+    backdrop.hidden = true;
+  }, { once: true });
+}
+
 function buildSipConfig(settings){
   return {
     websocketUrl: settings.websocketUrl,
@@ -112,6 +143,7 @@ function getSipHandlers(){
 
 
 async function boot(){
+  initDisclaimer();
   initTheme();
   initNavigation();
   initDialpad();

@@ -1227,6 +1227,16 @@ body{padding:0}
 .toast.warning { border-left: 4px solid var(--amber); }
 .toast.info { border-left: 4px solid var(--brand); }
 
+.disclaimer-backdrop{position:fixed;inset:0;z-index:10000;background:rgba(7,16,29,.68);backdrop-filter:blur(4px)}
+.disclaimer-modal{position:fixed;z-index:10001;top:50%;left:50%;width:min(440px,calc(100vw - 32px));transform:translate(-50%,-50%);padding:28px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:#fff;box-shadow:0 28px 80px rgba(2,8,23,.35);color:var(--ink)}
+.disclaimer-modal[hidden],.disclaimer-backdrop[hidden]{display:none}
+.disclaimer-icon{width:42px;height:42px;margin-bottom:14px;border-radius:14px;display:grid;place-items:center;background:#fff7ed;color:#c2410c;font-size:22px}
+.disclaimer-modal h2{margin:0 0 10px;font-size:21px;line-height:1.15}
+.disclaimer-modal p{margin:0;color:#475569;font-size:14px;line-height:1.6}
+.disclaimer-modal a{color:var(--brand);font-weight:800}
+.disclaimer-acknowledge{width:100%;height:44px;margin-top:22px;border:0;border-radius:13px;background:var(--brand);color:#fff;font-size:14px;font-weight:900;cursor:pointer}
+.disclaimer-acknowledge:hover{background:#005f98}
+
 @keyframes toastIn {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
